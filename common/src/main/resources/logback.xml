@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Logback configuration for test execution (e.g. run with embedded Jetty 
+	server in IDE) We do not use any file-based logging here: everything goes 
+	to console appender. (full documentation available at http://logback.qos.ch/manual/configuration.html) 
+	Warning - Below configuration must use SLF4J levels, so be careful especially 
+	if ActivePivot product centre ask you to activate some detailed logs, as 
+	they will usually speak in JUL terms. Here is the mapping... JUL level -> 
+	SLF4J level FINEST -> TRACE FINER -> DEBUG FINE -> DEBUG INFO -> INFO WARNING 
+	-> WARN SEVERE -> ERROR -->
+<configuration debug="false">
+
+	<conversionRule conversionWord="user"
+		converterClass="com.activeviam.training.impl.UserConverter" />
+
+	<!-- ===== APPENDERS ==================================================================================== 
+		note - when configuring encoder patterns, avoid using following placeholders 
+		in production (because it may impact performance too much): %class, %method, 
+		%line, %file, %xThrowable -->
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+   			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [Thread: %thread; User: %user] %-5level %logger{35} - %msg%n</pattern>
+  		</encoder>
+	</appender>
+
+	<!-- ===== SPECIALIZED LOGGERS ========================================================================= 
+		reminder - by default a logger will send log records to its appenders AND 
+		the appenders defined in any of its ancestor loggers, unless one such ancestor 
+		is set with additivity="false". For the 'test' configuration here, it is 
+		likely that we don't use specific appenders (e.g. file-based) in this case 
+		though: so we may define specialized loggers only for the sake of controlling 
+		the log level, typically to increase it for selective features/components. -->
+
+	<!-- Spring wiring logs (note - set .beans to DEBUG or TRACE for debugging 
+		of the beans creation at startup) -->
+
+	<logger name="org.springframework.core" level="INFO" />
+	<logger name="org.springframework.util" level="INFO" />
+	<logger name="org.springframework.beans" level="INFO" />
+	<logger name="org.springframework.context" level="INFO" />
+	<logger name="org.springframework.web" level="INFO" />
+
+	<!-- security logs -->
+
+	<logger name="org.springframework.security" level="INFO" />
+	<logger name="com.quartetfs.biz.pivot.security" level="INFO" />
+
+	<!-- queries logs (AP services) -->
+
+	<logger name="quartetfs.activepivot.xmla" level="INFO" />
+	<logger name="com.quartetfs.biz.pivot.monitoring.impl.XmlaMonitorListener"
+		level="INFO" />
+	<logger name="com.quartetfs.biz.pivot.webservices" level="INFO" />
+	<logger name="com.quartetfs.biz.pivot.streaming" level="INFO" />
+	<logger name="com.quartetfs.tech.streaming" level="INFO" />
+	<logger name="com.qfs.pivot.rest.discovery" level="INFO" />
+	<logger name="com.qfs.pivot.rest.query" level="INFO" />
+	
+	<!-- Uncomment this to enable store index logs -->
+	<!--  <logger name="com.qfs.store.query.impl.QueryCompiler" level="TRACE"/> -->
+	
+	<!-- queries logs (AP internals) -->
+
+	<logger name="com.quartetfs.pivot.mdx" level="INFO" />
+	<logger name="com.quartetfs.biz.pivot.impl.TimerActivePivotQueryExecutor"
+		level="INFO" />
+	<logger name="com.quartetfs.biz.pivot.impl.ActivePivotVersion"
+		level="FINE" /><!-- level=FINE to get query execution time summary -->
+	<logger name="com.quartetfs.biz.pivot.query.aggregates" level="INFO" />
+	<logger name="com.quartetfs.biz.pivot.postprocessing" level="INFO" />
+
+	<!-- queries logs (AP services) -->
+
+	<logger name="org.springframework.http" level="INFO" />
+	<logger name="org.springframework.remoting" level="INFO" />
+	<logger name="com.qfs.pivot.websocket" level="INFO" />
+
+	<!-- feeding logs -->
+
+	<logger name="com.qfs.msg" level="INFO" />
+	<logger name="com.qfs.msg.csv" level="DEBUG" />
+	<logger name="com.qfs.msg.csv.impl.Parser" level="INFO" />
+	<logger name="com.qfs.store" level="INFO" />
+	<logger name="com.qfs.store.transaction" level="INFO" />
+	<logger name="com.quartetfs.biz.pivot.transaction" level="INFO" />
+	<logger name="com.qfs.util.timing" level="INFO" />
+
+	<!-- ===== ROOT LOGGER ================================================================================= 
+		reminder - by default a logger will send log records to its appenders AND 
+		the appenders defined in any of its ancestor loggers, unless one such ancestor 
+		is set with additivity="false". -->
+
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+	</root>
+
+	<!-- =================================================================================================== 
+		Ensure optimal performance of JUL-to-SLF4J redirection (see http://logback.qos.ch/manual/configuration.html#LevelChangePropagator) 
+		NOTICE - this MUST be called AT THE END of this configuration, once all loggers 
+		have been defined! -->
+	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+		<resetJUL>true</resetJUL>
+	</contextListener>
+
+</configuration>

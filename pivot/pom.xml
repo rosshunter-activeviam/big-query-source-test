@@ -1,0 +1,336 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.activeviam.training</groupId>
+		<artifactId>performance-course</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>pivot</artifactId>
+	<packaging>jar</packaging>
+	<name>Pivot</name>
+
+	<prerequisites>
+		<maven>3.0</maven>
+	</prerequisites>
+
+<!--	<dependencyManagement>-->
+
+<!--		<dependencies>-->
+
+<!--			<dependency>-->
+<!--				<groupId>javax.servlet</groupId>-->
+<!--				<artifactId>javax.servlet-api</artifactId>-->
+<!--				<version>${javax.servlet.version}</version>-->
+<!--			</dependency>-->
+
+<!--			&lt;!&ndash; Jetty dependencies &ndash;&gt;-->
+<!--			<dependency>-->
+<!--				<groupId>org.eclipse.jetty</groupId>-->
+<!--				<artifactId>jetty-servlet</artifactId>-->
+<!--				<version>${jetty.version}</version>-->
+<!--				<exclusions>-->
+<!--					<exclusion>-->
+<!--						<groupId>org.eclipse.jetty.orbit</groupId>-->
+<!--						<artifactId>javax.servlet</artifactId>-->
+<!--					</exclusion>-->
+<!--				</exclusions>-->
+<!--			</dependency>-->
+<!--			<dependency>-->
+<!--				<groupId>org.eclipse.jetty</groupId>-->
+<!--				<artifactId>jetty-servlets</artifactId>-->
+<!--				<version>${jetty.version}</version>-->
+<!--			</dependency>-->
+<!--			<dependency>-->
+<!--				<groupId>org.eclipse.jetty</groupId>-->
+<!--				<artifactId>jetty-webapp</artifactId>-->
+<!--				<version>${jetty.version}</version>-->
+<!--			</dependency>-->
+<!--			<dependency>-->
+<!--				<groupId>org.eclipse.jetty</groupId>-->
+<!--				<artifactId>jetty-annotations</artifactId>-->
+<!--				<version>${jetty.version}</version>-->
+<!--			</dependency>-->
+<!--			<dependency>-->
+<!--				<groupId>org.eclipse.jetty.websocket</groupId>-->
+<!--				<artifactId>websocket-client</artifactId>-->
+<!--				<version>${jetty.version}</version>-->
+<!--			</dependency>-->
+<!--			<dependency>-->
+<!--				<groupId>org.eclipse.jetty.websocket</groupId>-->
+<!--				<artifactId>javax-websocket-client-impl</artifactId>-->
+<!--				<version>${jetty.version}</version>-->
+<!--			</dependency>-->
+<!--			<dependency>-->
+<!--				<groupId>org.eclipse.jetty.websocket</groupId>-->
+<!--				<artifactId>javax-websocket-server-impl</artifactId>-->
+<!--				<version>${jetty.version}</version>-->
+<!--			</dependency>-->
+<!--			<dependency>-->
+<!--				<groupId>org.eclipse.jetty.websocket</groupId>-->
+<!--				<artifactId>websocket-servlet</artifactId>-->
+<!--				<version>${jetty.version}</version>-->
+<!--			</dependency>-->
+<!--		</dependencies>-->
+
+<!--	</dependencyManagement>-->
+
+	<dependencies>
+
+		<!-- ActivePivot Dependencies -->
+		<dependency>
+			<groupId>com.activeviam.activepivot</groupId>
+			<artifactId>activepivot-server-spring</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.activeviam.training</groupId>
+			<artifactId>common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- BEGIN logging frameworks -->
+		<!-- *** LOGGING: use Logback as concrete logging framework binding for 
+			SLF4J *** -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+
+		<!-- Unified LOGGING enforcement via SLF4J logging API / facade -->
+
+		<!-- END logging frameworks -->
+
+		<!-- Jetty dependencies -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-webapp</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-annotations</artifactId>
+		</dependency>
+
+		<!-- Dependencies for the content service persistence -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+		
+		<!-- ActiveUI dependencies - we embed ActiveUI for ease of use as per the sandbox, but you should NOT do this on a real project -->
+		<dependency>
+			<groupId>com.activeviam.activeui</groupId>
+			<artifactId>activeui</artifactId>
+			<version>${activeui.version}</version>
+		</dependency>
+
+		<!-- Test Dependencies -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.activeviam.activepivot</groupId>
+			<artifactId>activepivot-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.activeviam.activepivot</groupId>-->
+<!--			<artifactId>activepivot-copper</artifactId>-->
+<!--			<version>5.8.0-jdk8</version>-->
+<!--			<type>test-jar</type>-->
+<!--			<scope>test</scope>-->
+<!--		</dependency>-->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.avro</groupId>
+			<artifactId>avro</artifactId>
+			<version>1.8.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-storage</artifactId>
+			<version>1.72.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-bigquerystorage</artifactId>
+			<version>0.90.0-alpha</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-bigquery</artifactId>
+			<version>v2-rev433-1.25.0</version>
+		</dependency>
+
+		<!-- SpringBoot dependencies -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-jdbc</artifactId>
+			<!-- <scope>test</scope> -->
+		</dependency>
+		<dependency>
+			<groupId>com.activeviam.activepivot</groupId>
+			<artifactId>activepivot-server-impl</artifactId>
+			<version>5.8.0-jdk8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>9.4.17.v20190418</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.jetty.websocket</groupId>
+			<artifactId>javax-websocket-server-impl</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty.websocket</groupId>
+			<artifactId>websocket-servlet</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-servlets</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-annotations</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
+	</dependencies>
+
+	<properties>
+		<spring.boot.mainclass>com.activeviam.training.main.ActivePivotSpringbootApplication</spring.boot.mainclass>
+		<maven.test.skip>true</maven.test.skip>
+	</properties>
+
+	<build>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<targetPath>${project.build.outputDirectory}</targetPath>
+				<includes>
+					<include>application.properties</include>
+				</includes>
+			</resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<!-- at least JDK 8 required -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>${spring.boot.mainclass}</mainClass>
+				</configuration>
+			</plugin>
+
+
+
+			<!-- <plugin> -->
+			<!-- <groupId>org.apache.maven.plugins</groupId> -->
+			<!-- <artifactId>maven-war-plugin</artifactId> -->
+			<!-- <version>3.0.0</version> -->
+			<!-- <configuration> -->
+			<!-- <failOnMissingWebXml>false</failOnMissingWebXml> -->
+			<!-- </configuration> -->
+			<!-- </plugin> -->
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<transformer
+										implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+									<resource>META-INF/spring.handlers</resource>
+								</transformer>
+								<transformer
+										implementation="org.springframework.boot.maven.PropertiesMergingResourceTransformer">
+									<resource>META-INF/spring.factories</resource>
+								</transformer>
+								<transformer
+										implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+									<resource>META-INF/spring.schemas</resource>
+								</transformer>
+								<transformer
+										implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+								<transformer
+										implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
