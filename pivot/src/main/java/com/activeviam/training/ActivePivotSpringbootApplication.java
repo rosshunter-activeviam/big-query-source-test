@@ -19,11 +19,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.util.CookieGenerator;
 
 import javax.servlet.MultipartConfigElement;
+import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * SpringBoot starter class for ActivePivot
@@ -40,8 +43,15 @@ import javax.servlet.MultipartConfigElement;
 @Import({ ApplicationConfig.class, PivotManagerConfig.class})
 public class ActivePivotSpringbootApplication {
 
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws IOException {
+
         SpringApplication.run(ActivePivotSpringbootApplication.class, args);
+
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver(ActivePivotSpringbootApplication.class.getClassLoader());
+        Arrays.asList(resolver.getResources("classpath*:/i18n/**"))
+                .stream()
+                .filter(r -> !r.getFilename().contains("not"))
+                .forEach(System.out::println);
     }
 
     /**IActivePivotManagerDescriptionConfig

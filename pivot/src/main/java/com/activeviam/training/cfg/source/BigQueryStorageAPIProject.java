@@ -45,7 +45,7 @@ public class BigQueryProject {
     public void startConnection() throws IOException {
         GoogleCredentials credentials;
         File credentialsFile = new File(credentialsPath);
-        try (FileInputStream serviceAccountStream = new FileInputStream(credentialsFile)) {
+        try (FileInputStream serviceAccountStream = new FileInputStream(credentialsPath)) {
             credentials = ServiceAccountCredentials.fromStream(serviceAccountStream);
         }
 
@@ -66,7 +66,7 @@ public class BigQueryProject {
         for (int i = 0; i < storeNames.length; i++) {
             storeAndTableNames.put(storeNames[i], tableNames[i]);
         }
-        for (String storeName: storeNames) {
+        for (String storeName: storeIndices.keySet()) {
             ReadSession session = getReadSession(client, storeAndTableNames.get(storeName));
             SimpleRowReader reader = new SimpleRowReader(
                     new Schema.Parser().parse(session.getAvroSchema().getSchema()));
@@ -86,25 +86,26 @@ public class BigQueryProject {
                 Preconditions.checkState(response.hasAvroRows());
                 //System.out.println("Time 1:" + (System.currentTimeMillis() - startTime));
                 newEntry.addAll(reader.processRows(response.getAvroRows(), storeName));
+                if (streamLength % 10 == 0) {
+                    transactionManager.addAll(storeName, newEntry);
+                    newEntry.clear();
+                }
                 //System.out.println("Time 2:" + (System.currentTimeMillis() - startTime));
                 streamLength += 1;
             }
-
             transactionManager.addAll(storeName, newEntry);
+
             System.out.println("stream length:"+streamLength);
             //System.out.println("Time 3:" + (System.currentTimeMillis() - startTime));
         }
-
     }
 
     private ReadSession getReadSession(BigQueryStorageClient bigQueryStorageClient, String tableName) {
         TableReferenceProto.TableReference tableReference = TableReferenceProto.TableReference.newBuilder().setDatasetId(datasetId).setTableId(tableName).setProjectId(projectId).build();
         String parent = "projects/" + projectId;
-        int requestedStreams = 10000;
         Storage.CreateReadSessionRequest.Builder builder = Storage.CreateReadSessionRequest.newBuilder()
                 .setParent(parent)
                 .setTableReference(tableReference)
-                .setRequestedStreams(requestedStreams)
                 .setFormat(Storage.DataFormat.AVRO);
 
         return bigQueryStorageClient.createReadSession(builder.build());
